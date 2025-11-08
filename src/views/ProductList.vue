@@ -200,8 +200,7 @@ const addToCart = (product) => {
 }
 
 const handleProductClick = (product) => {
-  // TODO: Navigate to product detail page
-  console.log('Product clicked:', product)
+  router.push(`/product/${product.id}`)
 }
 
 const showToastMessage = (message, type = 'success') => {

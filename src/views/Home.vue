@@ -233,7 +233,7 @@ const addToCart = (product) => {
 }
 
 const handleProductClick = (product) => {
-  console.log('Product clicked:', product)
+  router.push(`/product/${product.id}`)
 }
 
 const handleSubscribe = () => {

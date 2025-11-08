@@ -9,6 +9,12 @@
     <title>LittleMei - 女装时尚购物平台</title>
   </head>
   <body>
+    <!-- 强制刷新时滚动到顶部 -->
+    <script>
+      // 在页面加载前立即执行，防止浏览器恢复滚动位置
+      history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>

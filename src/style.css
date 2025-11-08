@@ -37,6 +37,9 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
+  overflow-x: hidden;
+  /* 防止页面刷新时记住滚动位置 */
+  overscroll-behavior: none;
 }
 
 #app {

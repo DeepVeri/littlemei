@@ -16,27 +16,54 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   function addToCart(product) {
-    const existingItem = items.value.find(item => item.id === product.id)
+    // 检查是否已存在相同商品（包括颜色和尺寸）
+    const existingItem = items.value.find(item => 
+      item.id === product.id && 
+      item.selectedColor === product.selectedColor && 
+      item.selectedSize === product.selectedSize
+    )
+    
     if (existingItem) {
-      existingItem.quantity++
+      existingItem.quantity += (product.quantity || 1)
     } else {
-      items.value.push({ ...product, quantity: 1 })
+      items.value.push({ 
+        ...product, 
+        quantity: product.quantity || 1,
+        // 确保有默认的stock值
+        stock: product.stock || 99
+      })
     }
   }
 
-  function removeFromCart(productId) {
-    const index = items.value.findIndex(item => item.id === productId)
+  function removeFromCart(productId, selectedColor, selectedSize) {
+    const index = items.value.findIndex(item => {
+      if (selectedColor && selectedSize) {
+        return item.id === productId && 
+               item.selectedColor === selectedColor && 
+               item.selectedSize === selectedSize
+      }
+      return item.id === productId
+    })
+    
     if (index > -1) {
       items.value.splice(index, 1)
     }
   }
 
-  function updateQuantity(productId, quantity) {
-    const item = items.value.find(item => item.id === productId)
+  function updateQuantity(productId, quantity, selectedColor, selectedSize) {
+    const item = items.value.find(item => {
+      if (selectedColor && selectedSize) {
+        return item.id === productId && 
+               item.selectedColor === selectedColor && 
+               item.selectedSize === selectedSize
+      }
+      return item.id === productId
+    })
+    
     if (item) {
       item.quantity = quantity
       if (quantity <= 0) {
-        removeFromCart(productId)
+        removeFromCart(productId, selectedColor, selectedSize)
       }
     }
   }

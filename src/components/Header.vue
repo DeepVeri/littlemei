@@ -40,9 +40,22 @@
 
       <div class="header-actions">
         <button 
+          class="icon-btn ai-btn" 
+          :title="t('header.aiTryOn')"
+          @click="router.push('/ai-tryon')"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          <span class="ai-badge">AI</span>
+        </button>
+
+        <button 
           class="icon-btn" 
           :title="t('header.wishlist')"
-          @click="showWishlist = !showWishlist"
+          @click="router.push('/wishlist')"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -53,7 +66,7 @@
         <button 
           class="icon-btn cart-btn" 
           :title="t('header.cart')"
-          @click="showCart = !showCart"
+          @click="router.push('/cart')"
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="9" cy="21" r="1"></circle>
@@ -61,6 +74,17 @@
             <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
           </svg>
           <span v-if="cartStore.cartCount > 0" class="cart-count">{{ cartStore.cartCount }}</span>
+        </button>
+
+        <button 
+          class="icon-btn user-btn" 
+          :title="t('header.userCenter')"
+          @click="router.push('/user')"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
         </button>
       </div>
     </div>
@@ -98,6 +122,9 @@
             <span>{{ t('cart.total') }}:</span>
             <strong>${{ cartStore.cartTotal.toFixed(2) }}</strong>
           </div>
+          <button class="view-cart-btn" @click="handleViewCart">
+            {{ t('header.viewCart') }}
+          </button>
           <button class="checkout-btn" @click="handleCheckout">
             {{ t('cart.checkout') }}
           </button>
@@ -170,11 +197,17 @@ const handleSearch = () => {
 
 const handleCheckout = () => {
   showCart.value = false
-  alert(t('cart.checkout'))
+  router.push('/cart')
+}
+
+const handleViewCart = () => {
+  showCart.value = false
+  router.push('/cart')
 }
 
 const handleAddToCart = (item) => {
   cartStore.addToCart(item)
+  showWishlist.value = false
 }
 </script>
 
@@ -444,6 +477,37 @@ const handleAddToCart = (item) => {
   animation: pop 0.3s ease;
 }
 
+.ai-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  animation: pop 0.3s ease;
+}
+
+.ai-btn {
+  position: relative;
+}
+
+.ai-btn:hover {
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 @keyframes pop {
   0% { transform: scale(0); }
   50% { transform: scale(1.2); }
@@ -646,6 +710,23 @@ const handleAddToCart = (item) => {
 
 .total strong {
   font-size: 24px;
+}
+
+.view-cart-btn {
+  width: 100%;
+  background: transparent;
+  color: #000;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+}
+
+.view-cart-btn:hover {
+  border-color: #000;
+  background: #f8f8f8;
 }
 
 .checkout-btn {
