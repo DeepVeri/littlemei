@@ -142,6 +142,20 @@ export default {
     edit: '编辑',
     more: '更多'
   },
+  outfits: {
+    features: {
+      designer: {
+        title: '设计师原创设计',
+        desc: '专业设计师精心搭配，每套都是独家原创，彰显你的独特品味'
+      },
+      aiTryOn: {
+        title: 'AI智能试穿',
+        desc: '上传照片即可虚拟试穿，实时预览搭配效果，让购物更智能'
+      }
+    },
+    aiTryOn: 'AI试穿',
+    aiTryOnMessage: '正在启动AI试穿功能...'
+  },
   footer: {
     platform: {
       title: '关联平台',

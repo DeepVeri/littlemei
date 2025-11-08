@@ -5,6 +5,31 @@
       <p>{{ t('home.outfitDesign.subtitle') }}</p>
     </div>
 
+    <!-- 特色功能展示 -->
+    <div class="features-section">
+      <div class="feature-card highlight">
+        <div class="feature-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          </svg>
+        </div>
+        <h3>{{ t('outfits.features.designer.title') }}</h3>
+        <p>{{ t('outfits.features.designer.desc') }}</p>
+      </div>
+      
+      <div class="feature-card highlight ai-feature">
+        <div class="feature-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+            <path d="M9 11h6v6H9z" opacity="0.3"/>
+          </svg>
+        </div>
+        <h3>{{ t('outfits.features.aiTryOn.title') }}</h3>
+        <p>{{ t('outfits.features.aiTryOn.desc') }}</p>
+        <span class="ai-badge">AI</span>
+      </div>
+    </div>
+
     <div class="outfit-grid">
       <div 
         v-for="(outfit, index) in designedOutfits" 
@@ -45,12 +70,20 @@
               <span class="original-price" v-if="outfit.originalPrice">${{ outfit.originalPrice }}</span>
               <span class="save-badge" v-if="outfit.originalPrice">省${{ outfit.originalPrice - outfit.price }}</span>
             </div>
-            <button class="view-outfit-btn" @click.stop="addToCart(outfit)">
-              {{ t('product.quickAdd') }}
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M9 2v6h6V2M19 9v6h-6V9M15 15v6H9v-6"></path>
-              </svg>
-            </button>
+            <div class="action-buttons">
+              <button class="ai-tryon-btn" @click.stop="handleAITryOn(outfit)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15l-5-5 1.41-1.41L11 14.17l6.59-6.59L19 9l-8 8z"/>
+                </svg>
+                {{ t('outfits.aiTryOn') }}
+              </button>
+              <button class="add-cart-btn" @click.stop="addToCart(outfit)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 2v6h6V2M19 9v6h-6V9M15 15v6H9v-6"></path>
+                </svg>
+                {{ t('product.quickAdd') }}
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -179,6 +212,12 @@ const handleOutfitClick = (outfit) => {
   console.log('Outfit clicked:', outfit)
 }
 
+const handleAITryOn = (outfit) => {
+  showToastMessage(t('outfits.aiTryOnMessage'))
+  // TODO: 实现AI试穿功能
+  console.log('AI Try-on:', outfit)
+}
+
 const addToCart = (outfit) => {
   cartStore.addToCart(outfit)
   showToastMessage(t('product.addedToCart'))
@@ -200,7 +239,7 @@ const showToastMessage = (message) => {
 
 .page-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .page-header h1 {
@@ -213,6 +252,111 @@ const showToastMessage = (message) => {
 .page-header p {
   font-size: 18px;
   color: #666;
+}
+
+/* 特色功能展示区 */
+.features-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 60px;
+}
+
+.feature-card {
+  background: linear-gradient(135deg, #ffeef8 0%, #fff5f9 100%);
+  padding: 40px 30px;
+  border-radius: 20px;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.feature-card.highlight {
+  border-color: #ff69b4;
+  box-shadow: 0 8px 30px rgba(255, 105, 180, 0.2);
+}
+
+.feature-card.ai-feature {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  border-color: #667eea;
+  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.feature-card .feature-icon {
+  color: #ff69b4;
+}
+
+.feature-card.ai-feature .feature-icon {
+  color: #667eea;
+}
+
+.feature-card h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  color: #333;
+  position: relative;
+  z-index: 1;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+.ai-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  z-index: 1;
 }
 
 .outfit-grid {
@@ -356,12 +500,14 @@ const showToastMessage = (message) => {
 }
 
 .outfit-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
   padding-top: 16px;
   border-top: 1px solid #f0f0f0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .price-info {
@@ -392,25 +538,69 @@ const showToastMessage = (message) => {
   font-weight: 700;
 }
 
-.view-outfit-btn {
+.ai-tryon-btn {
+  flex: 1;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
-  padding: 10px 18px;
-  border-radius: 20px;
+  padding: 12px 18px;
+  border-radius: 12px;
   font-size: 13px;
   font-weight: 600;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   transition: all 0.3s;
-  white-space: nowrap;
   border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.ai-tryon-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.5s, height 0.5s;
+}
+
+.ai-tryon-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.ai-tryon-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.add-cart-btn {
+  flex: 1;
+  background: #fff;
+  color: #333;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.3s;
+  border: 2px solid #e0e0e0;
   cursor: pointer;
 }
 
-.view-outfit-btn:hover {
-  background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
-  transform: scale(1.05);
+.add-cart-btn:hover {
+  border-color: #667eea;
+  background: #f5f7ff;
+  transform: translateY(-2px);
 }
 
 .toast {
@@ -440,6 +630,25 @@ const showToastMessage = (message) => {
     font-size: 32px;
   }
 
+  .features-section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .feature-card {
+    padding: 30px 20px;
+  }
+
+  .feature-icon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .feature-card h3 {
+    font-size: 20px;
+  }
+
   .outfit-grid {
     grid-template-columns: 1fr;
     gap: 20px;
@@ -454,15 +663,13 @@ const showToastMessage = (message) => {
     height: 50px;
   }
 
-  .outfit-footer {
+  .action-buttons {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
   }
 
-  .view-outfit-btn {
+  .ai-tryon-btn,
+  .add-cart-btn {
     width: 100%;
-    justify-content: center;
   }
 }
 

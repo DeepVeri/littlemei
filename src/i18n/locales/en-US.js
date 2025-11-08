@@ -142,6 +142,20 @@ export default {
     edit: 'Edit',
     more: 'More'
   },
+  outfits: {
+    features: {
+      designer: {
+        title: 'Designer Original Design',
+        desc: 'Professionally curated outfits by expert stylists, each set is exclusive and showcases your unique taste'
+      },
+      aiTryOn: {
+        title: 'AI Virtual Try-On',
+        desc: 'Upload your photo for virtual try-on, preview outfits in real-time, making shopping smarter'
+      }
+    },
+    aiTryOn: 'AI Try-On',
+    aiTryOnMessage: 'Launching AI Try-On feature...'
+  },
   footer: {
     platform: {
       title: 'Platform',
