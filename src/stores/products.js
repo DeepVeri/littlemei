@@ -14,7 +14,8 @@ export const useProductsStore = defineStore('products', () => {
       image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=500&fit=crop',
       rating: 4.5,
       reviews: 128,
-      isNew: true
+      isNew: true,
+      isVerified: true
     },
     {
       id: 2,
@@ -53,7 +54,8 @@ export const useProductsStore = defineStore('products', () => {
       image: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=400&h=500&fit=crop',
       rating: 4.7,
       reviews: 167,
-      isNew: false
+      isNew: false,
+      isVerified: true
     },
     {
       id: 5,
@@ -66,7 +68,8 @@ export const useProductsStore = defineStore('products', () => {
       image: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=400&h=500&fit=crop',
       rating: 4.9,
       reviews: 312,
-      isNew: false
+      isNew: false,
+      isVerified: true
     },
     {
       id: 6,
@@ -79,7 +82,8 @@ export const useProductsStore = defineStore('products', () => {
       image: 'https://images.unsplash.com/photo-1548624313-7d5c5ad36c52?w=400&h=500&fit=crop',
       rating: 4.8,
       reviews: 241,
-      isNew: true
+      isNew: true,
+      isVerified: true
     },
     {
       id: 7,
@@ -105,7 +109,8 @@ export const useProductsStore = defineStore('products', () => {
       image: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop',
       rating: 4.6,
       reviews: 276,
-      isNew: true
+      isNew: true,
+      isVerified: true
     }
   ])
 
@@ -120,8 +125,14 @@ export const useProductsStore = defineStore('products', () => {
 
   const getProductsByCategory = computed(() => {
     return (categoryId) => {
-      if (!categoryId || categoryId === 'all' || categoryId === 'new') {
+      if (!categoryId || categoryId === 'all') {
         return products.value
+      }
+      if (categoryId === 'new') {
+        return products.value.filter(p => p.isNew)
+      }
+      if (categoryId === 'verified') {
+        return products.value.filter(p => p.isVerified)
       }
       return products.value.filter(p => p.category === categoryId)
     }
@@ -135,12 +146,17 @@ export const useProductsStore = defineStore('products', () => {
     return products.value.filter(p => p.isNew)
   })
 
+  const verifiedProducts = computed(() => {
+    return products.value.filter(p => p.isVerified)
+  })
+
   return {
     products,
     categories,
     getProductsByCategory,
     getProductById,
-    newProducts
+    newProducts,
+    verifiedProducts
   }
 })
 

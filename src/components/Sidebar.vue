@@ -8,12 +8,21 @@
         <span>{{ t('nav.home') }}</span>
       </router-link>
 
-      <router-link to="/category/new" class="nav-item featured-item">
+      <router-link to="/outfits" class="nav-item featured-item">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
         </svg>
-        <span>{{ t('nav.newIn') }}</span>
-        <span class="badge">{{ newCount }}</span>
+        <span>{{ t('nav.outfitDesign') }}</span>
+        <span class="badge">{{ outfitCount }}</span>
+      </router-link>
+
+      <router-link to="/category/verified" class="nav-item verified-item">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+          <circle cx="12" cy="12" r="3" fill="white"/>
+        </svg>
+        <span>{{ t('nav.verified') }}</span>
+        <span class="verified-badge">✓</span>
       </router-link>
 
       <div class="section-divider">
@@ -63,7 +72,8 @@ const categories = ref([
   { id: 'shoes', emoji: '👠', count: 412 }
 ])
 
-const newCount = computed(() => productsStore.newProducts.length)
+const outfitCount = ref(6) // 6套原创搭配设计
+const verifiedCount = computed(() => productsStore.verifiedProducts.length)
 </script>
 
 <style scoped>
@@ -168,6 +178,48 @@ const newCount = computed(() => productsStore.newProducts.length)
   border-radius: 10px;
   font-size: 11px;
   font-weight: 700;
+}
+
+.verified-item {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: #fff;
+  font-weight: 700;
+  position: relative;
+  border: 2px solid transparent;
+  animation: shine 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 100% {
+    box-shadow: 0 4px 15px rgba(240, 147, 251, 0.4);
+  }
+  50% {
+    box-shadow: 0 6px 25px rgba(245, 87, 108, 0.6);
+  }
+}
+
+.verified-item:hover {
+  transform: translateX(5px) scale(1.02);
+  box-shadow: 0 6px 25px rgba(245, 87, 108, 0.5) !important;
+}
+
+.verified-badge {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  color: #f5576c;
+  padding: 2px 8px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 900;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .section-divider {
@@ -336,14 +388,22 @@ const newCount = computed(() => productsStore.newProducts.length)
   }
 
   .home-item,
-  .featured-item {
+  .featured-item,
+  .verified-item {
     min-width: 75px;
   }
 
-  .featured-item .badge {
+  .featured-item .badge,
+  .verified-badge {
     position: static;
     transform: none;
     margin-top: 4px;
+  }
+
+  .verified-badge {
+    width: auto;
+    height: auto;
+    border-radius: 10px;
   }
 
   .category-item {
@@ -423,7 +483,8 @@ const newCount = computed(() => productsStore.newProducts.length)
   }
 
   .home-item,
-  .featured-item {
+  .featured-item,
+  .verified-item {
     min-width: 65px;
   }
 

@@ -1,7 +1,8 @@
 export default {
   nav: {
     home: 'HOME',
-    newIn: 'NEW IN',
+    outfitDesign: 'OUTFIT DESIGN',
+    verified: 'VERIFIED FIRST',
     categories: 'CATEGORIES'
   },
   categories: {
@@ -64,6 +65,10 @@ export default {
     quickBuy: {
       title: 'Amazing Deals - Limited Time',
       subtitle: 'Curated affordable essentials, add to cart with one click'
+    },
+    newArrivals: {
+      title: 'New Arrivals',
+      subtitle: 'Latest products, be the first to experience new fashion'
     },
     outfitDesign: {
       title: 'Designer Curated Outfits',

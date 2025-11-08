@@ -1,7 +1,8 @@
 export default {
   nav: {
     home: '首页',
-    newIn: '新品',
+    outfitDesign: '原创搭配设计',
+    verified: '先鉴定后发货',
     categories: '分类'
   },
   categories: {
@@ -64,6 +65,10 @@ export default {
     quickBuy: {
       title: '超值好物 限时特惠',
       subtitle: '精选便宜实用好物，一键加入购物车'
+    },
+    newArrivals: {
+      title: '新品上架',
+      subtitle: '最新到货，抢先体验时尚新品'
     },
     outfitDesign: {
       title: '原创搭配设计',
